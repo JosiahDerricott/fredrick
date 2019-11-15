@@ -16,7 +16,7 @@ TODO tutorial
   - sprint
   - jump
   - pickup 
-  - UI (health, stamina, maybe current pickup, etc.)
+  - UI (health, stamina, maybe current pickup, etc.) (josiah)
 - fox holes/hiding places (matt)
   - fox will hide inside an object/fox hole
   - can possibly get rid of detection 
