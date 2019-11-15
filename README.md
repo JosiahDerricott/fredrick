@@ -19,6 +19,7 @@ TODO tutorial
   - sneak
   - sprint
   - jump
+  - pounce (for mice)
   - pickup 
   - UI (health, stamina, maybe current pickup, etc.) (josiah)
 - fox holes/hiding places (matt)
