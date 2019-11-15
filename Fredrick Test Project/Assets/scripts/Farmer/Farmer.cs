@@ -12,8 +12,6 @@ public class Farmer : MonoBehaviour
      * 
      */
 
-
-
     public Transform m_path;
     public Light m_spotLight;
     public Transform m_player;
@@ -45,6 +43,7 @@ public class Farmer : MonoBehaviour
     }
     // Update is called once per frame
     void Update() {
+        //TODO eventually add the levels of detection, and add a call dog 
         if(playerInSight()) {
             Debug.Log("Player is visable");
         } else
@@ -57,12 +56,14 @@ public class Farmer : MonoBehaviour
         float distance = Vector3.Distance(m_player.position, transform.position);
         if (playerInSight())      
         {
+            //TODO more testing, find if there is a better method to have farmer target player
             StopAllCoroutines();
             m_agent.SetDestination(m_player.position);
-            m_agent.speed = 2;
+            m_agent.speed = 20;
         }
         else
         {
+            //TODO find nearest path node, and restart followpoint from nearest point
         }
     }
 
