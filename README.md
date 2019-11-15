@@ -29,7 +29,10 @@ TODO tutorial
   - guide for the tutorial
   - gives player a quest to get the items to fix gate
 - Quest (josiah)
-  - add pick up items
+  - add pick up items (three)
+    - 1: behind ducks
+    - 2: jump onto haybales
+    - 3: under wagon (guarded by bees)
   - be able to interact with gate and player
 - animations
   - intro animation
