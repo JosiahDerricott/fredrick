@@ -31,3 +31,8 @@ TODO tutorial
   - animation to talk with the crow
   - possible animeation to fix gate 
   - possible animation to enter fox hole (not hiding spaces ex: barrel,wall)
+- Objects 
+  - beehive
+  - broken wagon 
+  - gate
+  - TBD
