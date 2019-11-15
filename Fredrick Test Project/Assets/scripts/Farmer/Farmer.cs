@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Farmer : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Farmer : MonoBehaviour
     public Light m_spotLight;
     public Transform m_player;
     public LayerMask m_viewMask;
+    public Rigidbody m_rb;
+    public NavMeshAgent m_agent;
 
     public float _moveSpd = 20f;
     public float _waitTime = .5f;
@@ -28,6 +31,8 @@ public class Farmer : MonoBehaviour
 
     void Start() {
         m_player = GameObject.FindGameObjectWithTag("Player").transform;
+        m_agent = GetComponent<NavMeshAgent>();
+        m_rb = GetComponent<Rigidbody>();
 
         _viewAngle = m_spotLight.spotAngle;
 
@@ -45,6 +50,19 @@ public class Farmer : MonoBehaviour
         } else
         {
             Debug.Log("Player is not visable");
+        }
+    }
+    private void FixedUpdate()
+    {
+        float distance = Vector3.Distance(m_player.position, transform.position);
+        if (playerInSight())      
+        {
+            StopAllCoroutines();
+            m_agent.SetDestination(m_player.position);
+            m_agent.speed = 2;
+        }
+        else
+        {
         }
     }
 
