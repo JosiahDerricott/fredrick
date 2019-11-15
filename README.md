@@ -6,9 +6,13 @@ Unity version 2019.2.11f1
 
 (11/15/2019 for 1/6/2020)
 TODO tutorial
+- ducks (matt) 
+  - similar to bees
+  - adds knockback 
 - bees (matt)
   - detection is a circle 
   - harms the fox if he is detected
+  - adds knockback
 - mice (matt)
   - eats mice to heal up
 - player (fox) (matt)
