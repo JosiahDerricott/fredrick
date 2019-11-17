@@ -28,6 +28,7 @@ TODO tutorial
 - Crow (josiah)
   - guide for the tutorial
   - gives player a quest to get the items to fix gate
+- Camera (josiah)
 - Quest (josiah)
   - add pick up items (three)
     - 1: behind ducks
