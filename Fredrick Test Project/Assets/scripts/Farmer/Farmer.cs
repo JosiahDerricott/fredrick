@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Farmer : MonoBehaviour
 {
@@ -11,12 +12,12 @@ public class Farmer : MonoBehaviour
      * 
      */
 
-
-
     public Transform m_path;
     public Light m_spotLight;
     public Transform m_player;
     public LayerMask m_viewMask;
+    public Rigidbody m_rb;
+    public NavMeshAgent m_agent;
 
     public float _moveSpd = 20f;
     public float _waitTime = .5f;
@@ -28,6 +29,8 @@ public class Farmer : MonoBehaviour
 
     void Start() {
         m_player = GameObject.FindGameObjectWithTag("Player").transform;
+        m_agent = GetComponent<NavMeshAgent>();
+        m_rb = GetComponent<Rigidbody>();
 
         _viewAngle = m_spotLight.spotAngle;
 
@@ -40,11 +43,27 @@ public class Farmer : MonoBehaviour
     }
     // Update is called once per frame
     void Update() {
+        //TODO eventually add the levels of detection, and add a call dog 
         if(playerInSight()) {
             Debug.Log("Player is visable");
         } else
         {
             Debug.Log("Player is not visable");
+        }
+    }
+    private void FixedUpdate()
+    {
+        float distance = Vector3.Distance(m_player.position, transform.position);
+        if (playerInSight())      
+        {
+            //TODO more testing, find if there is a better method to have farmer target player
+            StopAllCoroutines();
+            m_agent.SetDestination(m_player.position);
+            m_agent.speed = 20;
+        }
+        else
+        {
+            //TODO find nearest path node, and restart followpoint from nearest point
         }
     }
 
