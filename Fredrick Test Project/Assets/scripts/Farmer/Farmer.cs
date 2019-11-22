@@ -12,27 +12,38 @@ public class Farmer : MonoBehaviour
      * 
      */
 
+    //body comps for farmer
+    Rigidbody m_rb;
+    NavMeshAgent m_agent;
+
+    //player transform for position 
+    Transform m_player;
+    
+    //Ai Hearing
+    Vector3 m_noisePos;
+    private bool p_playerHeard = false;
+    public float _noiseDis = 50f;
+    public float _noiseSpinSpd = 3f;
+    private bool p_turnToPlayer = false;
+    private float p_isSpinning;
+    public float _spinTime = 3f;
+
+    //Ai patrol/follow
+    public LayerMask m_viewMask;
     public Transform m_path;
     public Light m_spotLight;
-    public Transform m_player;
-    public LayerMask m_viewMask;
-    public Rigidbody m_rb;
-    public NavMeshAgent m_agent;
-
     public float _moveSpd = 20f;
     public float _waitTime = .5f;
     public float _turnSpd = 180f;
     public float _viewDist;
-
-
-    float _viewAngle;
+    float p_viewAngle;
 
     void Start() {
         m_player = GameObject.FindGameObjectWithTag("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
         m_rb = GetComponent<Rigidbody>();
 
-        _viewAngle = m_spotLight.spotAngle;
+        p_viewAngle = m_spotLight.spotAngle;
 
         Vector3[] p_pathPoints = new Vector3[m_path.childCount];
         for(int i = 0; i < p_pathPoints.Length; i++) {
@@ -48,7 +59,7 @@ public class Farmer : MonoBehaviour
             Debug.Log("Player is visable");
         } else
         {
-            Debug.Log("Player is not visable");
+            //Debug.Log("Player is not visable");
         }
     }
     private void FixedUpdate()
@@ -104,7 +115,7 @@ public class Farmer : MonoBehaviour
         if (Vector3.Distance(transform.position, m_player.position) < _viewDist) {
             Vector3 p_playerAngle = (m_player.position - transform.position).normalized;
             float p_angleBetweenFarmer_Player = Vector3.Angle(transform.forward, p_playerAngle);
-            if(p_angleBetweenFarmer_Player < _viewAngle/2f) { 
+            if(p_angleBetweenFarmer_Player < p_viewAngle/2f) { 
                 if(!Physics.Linecast(transform.position, m_player.position, m_viewMask)) {
                     return true;
                 }
