@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -21,10 +22,33 @@ public class Player : MonoBehaviour
 
     Rigidbody m_rb;
 
+    //player ui Elements 
+    public float _stamina = 20f;
+    private float _maxStam = 20f;
+    public float _health = 10f;
+    public float _sneakFactor = 10f;
+    private float p_staminaDropRate;
+    private float p_staminaRegenRate;
+    public float _staminaDropMult;
+    public float _staminaRegenMult;
+    bool _running;
+    bool _sneaking;
+    public Slider staminaBar;
+
     // Start is called before the first frame update
     void Start()
     {
+
         m_rb = GetComponent<Rigidbody>();
+
+        _stamina = 20f;
+        _health = 10f;
+        _sneakFactor = 10f;
+
+        _running = false;
+        _sneaking = false;
+        p_staminaDropRate = 1f;
+        p_staminaRegenRate = 1f;
     }
 
     // Update is called once per frame
@@ -38,10 +62,83 @@ public class Player : MonoBehaviour
         p_angle = Mathf.LerpAngle(p_angle, p_targetAngle, Time.deltaTime * _turnSpd * p_inputMag);
 
         p_velocity = transform.forward * _moveSpd * p_smoothInputMag;
+
+        if (_stamina > 20f)
+            _stamina = 20f;
+
+        _maxStam = Mathf.Clamp01(_maxStam);
+
+        staminaBar.value = calcStam();
     }
 
     void FixedUpdate() {
-        m_rb.MoveRotation(Quaternion.Euler(Vector3.up * p_angle));
-        m_rb.MovePosition(m_rb.position + p_velocity * Time.deltaTime);
+        if (Sprint())
+        {
+            reduceStamina();
+            if (_stamina > 0f)
+            {
+                _running = true;
+            }
+        } else if (Sneak())
+        {
+            reduceStamina();
+            if (_stamina > 0f)
+            {
+                _sneaking = true;
+            }
+        } else
+        {
+            _sneaking = false;
+            _running = false;
+            Invoke("regenStamina", 4);
+        }
+
+        _stamina = Mathf.Clamp01(_stamina);
+
+        if (_running)
+        {
+            m_rb.MoveRotation(Quaternion.Euler(Vector3.up * p_angle));
+            m_rb.MovePosition(m_rb.position + p_velocity * 2 * Time.deltaTime);
+        }
+        else if (_sneaking)
+        {
+            m_rb.MoveRotation(Quaternion.Euler(Vector3.up * p_angle));
+            m_rb.MovePosition(m_rb.position + p_velocity / 2 * Time.deltaTime);
+        } else
+        {
+            m_rb.MoveRotation(Quaternion.Euler(Vector3.up * p_angle));
+            m_rb.MovePosition(m_rb.position + p_velocity * Time.deltaTime);
+        }
+
+    }
+
+    bool Sprint()
+    {
+        if(_stamina > 0 && Input.GetKey(KeyCode.LeftShift))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool Sneak()
+    {
+        if (_stamina > 0 && Input.GetKey(KeyCode.LeftControl))
+        {
+            return true;
+        }
+        return false; 
+    }
+    void reduceStamina()
+    {
+        _stamina -= Time.deltaTime / p_staminaDropRate;
+    }
+    void regenStamina()
+    {
+        _stamina += Time.deltaTime / p_staminaRegenRate;
+    }
+    float calcStam()
+    {
+        return _stamina / _maxStam;
     }
 }
