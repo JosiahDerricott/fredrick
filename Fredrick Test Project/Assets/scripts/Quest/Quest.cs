@@ -11,27 +11,26 @@ public class Quest : MonoBehaviour
         public string _stepDesc;
     }
 
-    public string _name, _desc;
+    [SerializeField]
+    string _name, _desc;
 
     // Queue will be more efficient later
-    public List<QuestStep> _currentQuestSteps = new List<QuestStep>();
+    [SerializeField]
+    List<QuestStep> p_currentQuestSteps;
 
     // Queue will be more efficient later
-    public List<QuestStep> _completedQuestSteps = new List<QuestStep>();
+    [SerializeField]
+    List<QuestStep> p_completedQuestSteps;
 
-    bool isComplete;
+    bool p_isComplete;
 
     void Start()
     {
         /* Once we implement saving, this is field 
          * that will be serialized and retrieved */
-        isComplete = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        p_isComplete = false;
+        p_currentQuestSteps = new List<QuestStep>();
+        p_completedQuestSteps = new List<QuestStep>();
     }
 
     public string GetName()
@@ -46,7 +45,17 @@ public class Quest : MonoBehaviour
 
     public bool GetIsComplete()
     {
-        return isComplete;
+        return p_isComplete;
+    }
+
+    public List<QuestStep> GetCurrentSteps()
+    {
+        return p_currentQuestSteps;
+    }
+
+    public List<QuestStep> GetCompleteSteps()
+    {
+        return p_completedQuestSteps;
     }
 
     public void SetName(string newName)
@@ -61,7 +70,7 @@ public class Quest : MonoBehaviour
 
     public void SetIsComplete(bool flag)
     {
-        isComplete = flag;
+        p_isComplete = flag;
     }
 
     /*
@@ -72,20 +81,31 @@ public class Quest : MonoBehaviour
      */
     public bool CompleteStep()
     {
-        if (_currentQuestSteps.Count > 0)
+        if (p_currentQuestSteps.Count > 0)
         {
             // Create temp of step to be completed
-            QuestStep temp = _currentQuestSteps[0];
+            QuestStep temp = p_currentQuestSteps[0];
 
             // Remove step
-            _currentQuestSteps.RemoveAt(0);
+            p_currentQuestSteps.RemoveAt(0);
 
             // Set as completed
-            _completedQuestSteps.Add(temp);
+            p_completedQuestSteps.Add(temp);
 
             return true;
         }
 
         return false;
+    }
+
+    public void Print()
+    {
+        Debug.Log("Quest Name: " + GetName());
+        Debug.Log("Quest Desc: " + GetDesc());
+
+        if (p_currentQuestSteps != null && p_currentQuestSteps.Count > 0)
+            Debug.Log("Current Step: " + p_currentQuestSteps[0]);
+        else
+            Debug.Log("All steps complete, should not be current!");
     }
 }
