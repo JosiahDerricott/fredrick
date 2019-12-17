@@ -4,19 +4,37 @@ using UnityEngine;
 
 public class QuestReceiver : MonoBehaviour
 {
+    [SerializeField]
     List<Quest> p_questList = new List<Quest>();
+
+    [SerializeField]
     Quest p_curQuest;
 
     void Start()
     {
-        /* TODO: Read from save data quest list
+        /* 
+         * TODO: Read from save data quest list
          * Read from save data into p_curQuest 
          */
     }
 
-    void Update()
+    public void AddQuest(Quest questToAdd)
     {
+        if (!p_questList.Contains(questToAdd))
+            p_questList.Add(questToAdd);
+        else
+            Debug.LogError("Cannot add the same quest twice!");
+    }
 
+    public void RemoveQuest(Quest questToRemove)
+    {
+        /* TODO: Have buffers to stop bad things */
+        p_questList.Remove(questToRemove);
+    }
+
+    public void ClearQuests()
+    {
+        p_questList.Clear();
     }
 
     public Quest GetCurQuest()

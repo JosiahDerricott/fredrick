@@ -16,11 +16,11 @@ public class Quest : MonoBehaviour
 
     // Queue will be more efficient later
     [SerializeField]
-    List<QuestStep> p_currentQuestSteps;
+    List<QuestStep> p_currentQuestSteps = new List<QuestStep>();
 
     // Queue will be more efficient later
     [SerializeField]
-    List<QuestStep> p_completedQuestSteps;
+    List<QuestStep> p_completedQuestSteps = new List<QuestStep>();
 
     bool p_isComplete;
 
@@ -29,8 +29,6 @@ public class Quest : MonoBehaviour
         /* Once we implement saving, this is field 
          * that will be serialized and retrieved */
         p_isComplete = false;
-        p_currentQuestSteps = new List<QuestStep>();
-        p_completedQuestSteps = new List<QuestStep>();
     }
 
     public string GetName()
@@ -104,7 +102,7 @@ public class Quest : MonoBehaviour
         Debug.Log("Quest Desc: " + GetDesc());
 
         if (p_currentQuestSteps != null && p_currentQuestSteps.Count > 0)
-            Debug.Log("Current Step: " + p_currentQuestSteps[0]);
+            Debug.Log("Current Step: " + p_currentQuestSteps[0]._stepDesc);
         else
             Debug.Log("All steps complete, should not be current!");
     }
