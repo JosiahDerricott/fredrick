@@ -42,6 +42,11 @@ public class QuestReceiver : MonoBehaviour
         return p_curQuest;
     }
 
+    public List<Quest> GetQuestList()
+    {
+        return p_questList;
+    }
+
     public void SetCurQuest(Quest activeQuest)
     {
         if(p_questList.Contains(activeQuest))

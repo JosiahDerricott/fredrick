@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Quest : MonoBehaviour
 {
-    [System.Serializable]
-    public struct QuestStep
-    {
-        public int _stepNumber;
-        public string _stepDesc;
-    }
-
     [SerializeField]
-    string _name, _desc;
+    string p_name, p_desc;
 
     // Queue will be more efficient later
     [SerializeField]
@@ -33,12 +27,12 @@ public class Quest : MonoBehaviour
 
     public string GetName()
     {
-        return _name;
+        return p_name;
     }
 
     public string GetDesc()
     {
-        return _desc;
+        return p_desc;
     }
 
     public bool GetIsComplete()
@@ -58,12 +52,12 @@ public class Quest : MonoBehaviour
 
     public void SetName(string newName)
     {
-        _name = newName;
+        p_name = newName;
     }
 
     public void SetDesc(string newDesc)
     {
-        _desc = newDesc;
+        p_desc = newDesc;
     }
 
     public void SetIsComplete(bool flag)
@@ -102,8 +96,35 @@ public class Quest : MonoBehaviour
         Debug.Log("Quest Desc: " + GetDesc());
 
         if (p_currentQuestSteps != null && p_currentQuestSteps.Count > 0)
-            Debug.Log("Current Step: " + p_currentQuestSteps[0]._stepDesc);
+            Debug.Log("Current Step: " + p_currentQuestSteps[0].GetStepDesc());
         else
             Debug.Log("All steps complete, should not be current!");
+    }
+}
+
+[System.Serializable]
+public class QuestStep
+{
+    [SerializeField]
+    int _stepNumber;
+
+    [SerializeField]
+    string _stepDesc;
+
+    List<QuestCondition> _conditions;
+
+    public int GetStepNumber()
+    {
+        return _stepNumber;
+    }
+
+    public string GetStepDesc()
+    {
+        return _stepDesc;
+    }
+
+    public List<QuestCondition> GetCondtions()
+    {
+        return _conditions;
     }
 }
